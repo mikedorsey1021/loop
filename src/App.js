@@ -5,7 +5,6 @@ import "./App.css";
 
 const App = () => {
   const [results, setResults] = useState({});
-  const [inputText, setInputText] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 

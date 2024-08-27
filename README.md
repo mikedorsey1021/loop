@@ -12,14 +12,6 @@ This React application is designed to interact with various AWS Lambda functions
 - **CSS**: Basic CSS is used for styling the UI.
 - **Amplify**: Handles the creation and deploy of the underlined infrastructure.
 
-## Installation
-
-To get started with the application, you need to install the required dependencies. Run the following commands in your project directory:
-
-```bash
-npm install react axios react-json-view
-```
-
 ### 1. Imports
 
 ```javascript
