@@ -16,7 +16,7 @@ To view the API code follow this [Link](Lambda.md)
 - **CSS**: Basic CSS is used for styling the UI.
 - **Amplify**: Handles the creation and deploy of the underlined infrastructure.
 
-### 1. Imports
+### 1. `Imports`
 
 ```javascript
 import React, { useState } from "react";
@@ -25,7 +25,7 @@ import ReactJson from "react-json-view"; // Import react-json-view for displayin
 import "./App.css"; // Import custom CSS for styling the application
 ```
 
-### 2. State Management
+### 2. `State Management`
 
 ```javascript
 const [results, setResults] = useState({});
@@ -38,7 +38,7 @@ const [error, setError] = useState(null);
 - **loading**: A boolean that tracks whether a request is currently in progress. It is used to disable buttons and show loading indicators.
 - **error**: Stores any error messages that occur during the API requests.
 
-### 3. Calling the Lambda Function
+### 3. `Calling the Lambda Function`
 
 ```javascript
 const callLambda = async () => {
