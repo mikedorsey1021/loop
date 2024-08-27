@@ -1,38 +1,131 @@
-.App {
-  text-align: center;
+:root {
+  --primary-color: #3b82f6;
+  --primary-hover-color: #2563eb;
+  --background-color: #f9fafb;
+  --text-color: #111827;
+  --border-color: #d1d5db;
+  --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.app-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px var(--shadow-color);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.app-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+}
+
+.app-main {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 2.5rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+.input-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.app-button {
+  background-color: var(--primary-color);
   color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px var(--shadow-color);
 }
 
-.App-link {
-  color: #61dafb;
+.app-button:hover {
+  background-color: var(--primary-hover-color);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px var(--shadow-color);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.app-input {
+  flex-grow: 1;
+  max-width: 300px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.app-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+.results {
+  margin-top: 2rem;
+  background-color: var(--background-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: inset 0 2px 4px var(--shadow-color);
+}
+
+.results p {
+  margin: 0.75rem 0;
+  line-height: 1.5;
+}
+
+.error-message {
+  color: red;
+  margin: 10px 0;
+}
+
+.results pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+@media (max-width: 600px) {
+  .app-container {
+    margin: 1rem;
+    padding: 1.5rem;
   }
-  to {
-    transform: rotate(360deg);
+
+  .button-group, .input-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .app-input {
+    max-width: none;
   }
 }

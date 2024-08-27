@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/shipments": {
+      "name": "/shipments",
+      "lambdaFunction": "allshipmentsData",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
