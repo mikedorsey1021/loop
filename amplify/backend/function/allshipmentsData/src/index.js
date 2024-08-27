@@ -22,34 +22,16 @@ async function testConnection() {
 
 async function getShipmentData(startDate, endDate, limit = 50, cursor = null) {
   try {
-    const params = { start_date: startDate, end_date: endDate, limit: limit };
+    const params = {
+      revisedAfter: startDate,
+      revisedBefore: endDate,
+      first: limit,
+    };
     if (cursor) params.after = cursor;
     const response = await api.get("/shipment-jobs", { params });
     return response.data;
   } catch (error) {
     console.error("Error in getShipmentData:", error);
-    throw error;
-  }
-}
-
-async function getShipmentFromBolNumber(startDate, endDate, bolNumber) {
-  let cursor = null;
-  let hasNextPage = true;
-
-  try {
-    while (hasNextPage) {
-      const response = await getShipmentData(startDate, endDate, 50, cursor);
-      const shipment = response.data.find(
-        (s) => s.referenceNumbers.bolNumber === bolNumber
-      );
-      if (shipment) return [shipment];
-
-      hasNextPage = response.pageInfo.hasNextPage;
-      cursor = response.pageInfo.endCursor;
-    }
-    return []; // Return empty array if no matching shipment found
-  } catch (error) {
-    console.error("Error in getShipmentFromBolNumber:", error);
     throw error;
   }
 }
@@ -82,24 +64,40 @@ async function getAllShipmentData(startDate, endDate, limit = 50) {
   }
 }
 
-async function getCarrierInfo(carrierOrganizationQid) {
+async function getCarrierInfo(carrierOrganizationQid, special = false) {
   if (!carrierOrganizationQid) {
     console.warn("Missing carrierOrganizationQid, skipping carrier info fetch");
-    return {
-      legalName: "Unknown",
-      usDotNumber: "Unknown",
-      scac: "Unknown",
-      mcNumber: "Unknown",
-    };
+    if (special) {
+      return {
+        legalName: "Unknown",
+        usDotNumber: "Unknown",
+        scac: "Unknown",
+        mcNumber: "Unknown",
+      };
+    } else {
+      return {
+        usDotNumber: "Unknown",
+        scac: "Unknown",
+        mcNumber: "Unknown",
+      };
+    }
   }
   try {
     const response = await api.get(`/organizations/${carrierOrganizationQid}`);
-    return {
-      legalName: response.data.legalName || "Unknown",
-      usDotNumber: response.data.truckingCarrierInfo.usDotNumber || "Unknown",
-      scac: response.data.truckingCarrierInfo.scac || "Unknown",
-      mcNumber: response.data.truckingCarrierInfo.mcNumber || "Unknown",
-    };
+    if (special) {
+      return {
+        legalName: response.data.legalName || "Unknown",
+        usDotNumber: response.data.truckingCarrierInfo.usDotNumber || "Unknown",
+        scac: response.data.truckingCarrierInfo.scac || "Unknown",
+        mcNumber: response.data.truckingCarrierInfo.mcNumber || "Unknown",
+      };
+    } else {
+      return {
+        usDotNumber: response.data.truckingCarrierInfo.usDotNumber || "Unknown",
+        scac: response.data.truckingCarrierInfo.scac || "Unknown",
+        mcNumber: response.data.truckingCarrierInfo.mcNumber || "Unknown",
+      };
+    }
   } catch (error) {
     console.error(
       `Error fetching carrier info for ${carrierOrganizationQid}:`,
@@ -140,20 +138,20 @@ async function processShipments(startDate, endDate) {
   const shipments = await getAllShipmentData(startDate, endDate);
   console.log(`Total shipments fetched: ${shipments.length}`);
 
-  const bolToFind = "BOL123";
-  const singleShipmentBol = await getShipmentFromBolNumber(
-    startDate,
-    endDate,
-    bolToFind
-  );
-  if (singleShipmentBol.length > 0) shipments.push(singleShipmentBol[0]);
-
   const processedShipments = await Promise.all(
     shipments.map(async (shipment) => {
-      const carrierInfo = await getCarrierInfo(
-        shipment.jobTypeInfo?.carrierOrganizationQid
-      );
-      return { ...shipment, carrierData: carrierInfo };
+      if (shipment.referenceNumbers.bolNumber === "BOL123") {
+        const carrierInfo = await getCarrierInfo(
+          shipment.jobTypeInfo?.carrierOrganizationQid,
+          true
+        );
+        return { ...shipment, carrierData: carrierInfo };
+      } else {
+        const carrierInfo = await getCarrierInfo(
+          shipment.jobTypeInfo?.carrierOrganizationQid
+        );
+        return { ...shipment, carrierData: carrierInfo };
+      }
     })
   );
 

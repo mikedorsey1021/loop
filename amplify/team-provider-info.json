@@ -16,7 +16,7 @@
       "function": {
         "allshipmentsData": {
           "deploymentBucketName": "amplify-apiintegrationapp-dev-47185-deployment",
-          "s3Key": "amplify-builds/allshipmentsData-762b3376312f52716131-build.zip"
+          "s3Key": "amplify-builds/allshipmentsData-6259553641712b615445-build.zip"
         }
       },
       "auth": {
@@ -24,6 +24,12 @@
       },
       "api": {
         "loopApiIntegration": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d3ogmfc437ooaw",
+          "type": "manual"
+        }
       }
     }
   }
