@@ -4,6 +4,10 @@
 
 This React application is designed to interact with various AWS Lambda functions via HTTP requests. It utilizes the `axios` package for making API calls and displays the responses using the `react-json-view` package. The application provides a user interface (UI) where users can click a button to trigger Lambda functions and view the results in a structured JSON format. The Lambda interacts with the various endpoints of the Loop Api.
 
+## Loop API Code
+
+To view the API code follow this [Link](Lambda.md)
+
 ## Dependencies
 
 - **React**: The core JavaScript library used for building the user interface.
